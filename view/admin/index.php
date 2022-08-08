@@ -55,7 +55,7 @@
           <div class="col-lg-12 main-chart">
             <!--CUSTOM CHART START -->
             <div class="border-head">
-              <h3>SCHOOLS ADDED</h3>
+              <h3>Readings</h3>
             </div>
             <div class="custom-bar-chart">
               <ul class="y-axis">

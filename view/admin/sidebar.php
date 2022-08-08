@@ -13,7 +13,7 @@
            <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-users"></i>
-              <span>User Mangemnt</span>
+              <span>User Management</span>
               </a>
             <ul class="sub">
                 <li><a href="adduser.php">Add User</a></li>
@@ -26,7 +26,7 @@
               <span>Company Management</span>
               </a>
             <ul class="sub">
-                <li><a href="#">Fuel Depo</a></li>
+                <li><a href="fueldepo.php">Fuel Depo</a></li>
                 
             
             </ul>

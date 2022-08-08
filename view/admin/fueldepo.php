@@ -1,3 +1,19 @@
+<?php
+
+  require_once '../../controller/super/SessionStart.php';
+ require_once '../../db_connection/dbconfig.php';
+    require_once '../../model/SuperModel.php';
+ $provice_stm = SuperModel:: get_provinces();
+  $public_id = $_SESSION['ttms_public_id'];
+
+    $school_id = $_SESSION['ttms_school_id'];;
+ 
+$stm = SuperModel::get_all_depos();
+ 
+ 
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +23,7 @@
   <meta name="description" content="">
   <meta name="author" content="Dashboard">
   
-  <title>Dashboard</title>
+  <title>Master</title>
 
 
   <!-- Bootstrap core CSS -->
@@ -60,91 +76,126 @@
            
             <div class="form-panel">
               <div class=" form">
-                  <form class="cmxform form-horizontal style-form" id="commentForm" method="POST" action="../../controller/debs/ActionPerformed.php">
+                  <form class="cmxform form-horizontal style-form" id="commentForm" method="POST" action="../../controller/super/ActionPerformed.php">
                     
                        <div class="form-group ">
                       <div class="col-sm-12">
-                          <h3>Add User</h3>
+                          <h4>Add Depo</h4>
                   </div>  </div>
                   <div class="form-group ">
                    
-                    <div class="col-sm-4">
-                         <label for="username" class="control-label col-ms-4">Username (required)</label>
-                      <input class=" form-control" id="username" name="username" minlength="4" type="text" required />
+                    <div class="col-sm-12">
+                         <label for="username" class="control-label col-ms-4">Depo Name (required)</label>
+                         <input class=" form-control" id="depo_name" name="depo_name"  type="text" required />
                     </div>
-                     <div class="col-sm-4">
-                          <label for="cname" class="control-label col-ms-4">Password (required)</label>
-                         <input class=" form-control" id="password" name="password" minlength="4" type="password" required />
-                    </div>
-                     <div class="col-sm-4">
-                          <label for="cname" class="control-label col-ms-5">Confirm Password (required)</label>
-                         <input class=" form-control" id="cpassword" name="cpassword" minlength="4" type="password" required />
-                    </div>
-                  </div>
-                   <div class="form-group ">
+                     
+                     
+                      
+                  
                    
-                    <div class="col-sm-4">
-                         <label for="fname" class="control-label col-ms-4">First Name (required)</label>
-                      <input class=" form-control" id="fname" name="first_name" type="text" required />
-                    </div>
-                     <div class="col-sm-4">
-                          <label for="lname" class="control-label col-ms-4">Last Name (required)</label>
-                         <input class=" form-control" id="lname" name="last_name"  type="text" required />
-                    </div>
-                        <div class="col-sm-4">
-                          <label for="oname" class="control-label col-ms-4">Other Name </label>
-                         <input class=" form-control" id="oname" name="other_name"  type="text"  />
-                    </div>
-                    
-                  </div>
-                    
-                     <div class="form-group ">
-                   
-                    <div class="col-sm-4">
-                         <label for="contactno" class="control-label col-ms-4">Contact No. (required)</label>
-                      <input class=" form-control" id="contactno" name="contactno" type="text" required />
-                    </div>
-                           <div class="col-sm-3 ">
-                    <div data-date-viewmode="years" data-date-format="yyyy-mm-dd" data-date="01-04-2021" class="input-append date dpYears">
-                       <label for="contactno" class="control-label col-ms-4">Select D.O.B</label>
-                       <input type="text" name="dob" readonly="" value="2021-04-11" size="16" class="form-control">
-                      <span class="input-group-btn add-on">
-                        <button class="btn btn-theme" type="button"><i class="fa fa-calendar"></i></button>
-                        </span>
-                    </div>
-                   
-                  </div>
-                             <div class="col-sm-1">
+                 
                           
+                           
+                                            <div class="col-sm-6">
+                                                
+                                                 <label for="selected_province_id"  class="control-label col-ms-3">Province(required)</label>
+                                                <select class="form-control" id="selected_province_id" onchange="get_districts()"  required="required"  name="province_id"  >
+                                                    <option value="0" selected disabled="">Select Province</option>
+                                                    <?php
+                                                    while ($row = $provice_stm->fetch(PDO::FETCH_ASSOC)) {
+                                                        ?>
+                                                        <option  value="<?php echo $row['ProvinceID']; ?>"><?php echo $row['ProvinceName']; ?></option>
+
+                                                    <?php } ?>
+
+                                                </select> 
+
+                                            </div>
+                                
+                                  <div  id="districts_by_provincId" >
+                               
+                                        </div> 
+                                       
+                          
+                           <div class="col-sm-4">
+                        <br><button name="btn_add_depo" class="btn btn-theme" type="submit">Add Depo</button>
+                   
                     </div>
-                          <div class="col-sm-4">
-                             <label for="contactno"  class="control-label col-ms-4">Gender (required)</label> 
-                             <select name="gender" class="form-control">
-                                  <option value="1">Male</option>
-                                  <option value="2">Female</option>
-                  
-                </select>
-                              
-                        
-                    </div>
-                         
-                  
-                       
-                    
                   </div>
-                  <div class="form-group">
-                    <div class="col-lg-offset-1 col-lg-10">
-                        <button name="add_debs_user" class="btn btn-theme" type="submit">Save</button>
-                      <button class="btn btn-theme04" id="btn_cancel" type="button">Cancel</button>
-                    </div>
-                  </div>
+                 
+             
+                 
                 </form>
-              </div>
+              
             </div>
             <!-- /form-panel -->
+            
+            
+            
           </div>
           <!-- /col-lg-12 -->
+          <div class="form-panel">
+           <div class="row">
+          <div class="col-lg-12 main-chart">
+         
+            
+      
+            <div class="row mb" style="padding-left: 10px; padding-right: 10px;">
+          <!-- page start-->
+          <div class="content-panel" >
+            <div class="adv-table">
+              <table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+                <thead>
+                  <tr>
+                    <th>Depo Name</th>
+                    <th>Depo Id</th>
+                    <th >Location</th>
+                  
+              
+                   
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    
+                      <?php while($row = $stm->fetch(PDO::FETCH_ASSOC))
+                            
+                    {
+                          
+                            ?>
+                  <tr >
+                
+                    <td><?php echo $row['AreaName'];?></td>
+                  
+                    <td ><?php echo $row['AreaPublicID'];?></td>
+                      <td><?php echo $row['Location'];?></td>
+                     
+                     
+                  
+                  </tr>
+                    <?php } ?>
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <!-- page end-->
         </div>
+         
+          </div>
+          <!-- /col-lg-9 END SECTION MIDDLE -->
+          <!-- **********************************************************************************************************************************************************
+              RIGHT SIDEBAR CONTENT
+              *********************************************************************************************************************************************************** -->
+          
+          <!-- /col-lg-3 -->
+        </div>
+              </div>
+        </div>
+            
+            
+            
+           
       </section>
       <!-- /wrapper -->
     </section>
@@ -153,7 +204,7 @@
     <footer class="site-footer">
       <div class="text-center">
         <p>
-          &copy; Copyrights <strong>RDMS</strong>. All Rights Reserved
+          &copy; Copyrights <strong>FMS</strong>. All Rights Reserved
         </p>
        
         <a href="index.php#" class="go-top">
@@ -186,6 +237,7 @@
   <script type="text/javascript" src="../../lib/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
   <script type="text/javascript" src="../../lib/lib/bootstrap-daterangepicker/moment.min.js"></script>
   <script type="text/javascript" src="../../lib/lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+   <script src="../../js/RelaodDistrict.js" type="text/javascript"></script>
   <script src="../../lib/lib/advanced-form-components.js"></script>
   
   <script type="application/javascript">

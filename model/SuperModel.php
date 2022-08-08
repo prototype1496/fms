@@ -15,6 +15,19 @@ class SuperModel{
             return $stm;
       
    }
+   
+   
+     public static function get_all_depos() {
+       
+        $Connection = new Connection();
+        $conn = $Connection->connect();
+
+        $query = "CALL GetAreas();";
+        $stm = $conn->query($query);
+      
+            return $stm;
+      
+   }
     
     
      public static function add_amount($amount,$UpdatedBy) 
@@ -46,6 +59,76 @@ class SuperModel{
         }
     }
    
+    
+    
+     public static function add_meter_readings($AreaID,$waterReading,$AudwinoID,$updated_by) {
+        
+       
+       
+      $rounded_value  =  round($waterReading,2);
+      
+        try {
+            $Connection = new Connection();
+            $conn = $Connection->connect();
+          
+            $conn->beginTransaction();
+
+           
+            //Insets data into user master tabble
+            $query1 = "INSERT INTO `readings` (`AreaID`, `Hight`, `AudwinoID`, `UpdatedBy`) VALUES ('$AreaID', '$waterReading','$AudwinoID', '$updated_by');";
+            
+           
+            $stm = $conn->prepare($query1);
+            
+           
+            $stm->execute();
+
+
+            $conn->commit();
+            $conn = Null;
+            return TRUE;
+        } catch (Exception $exc) {
+            $conn->rollBack();
+             
+           echo $exc->getMessage();
+            return FALSE;
+        }
+    }
+    
+    
+     public static function add_depo($depo_name,$selected_province_id,$district_id,$UpdatedBy) {
+        
+       
+       
+     
+      
+        try {
+            $Connection = new Connection();
+            $conn = $Connection->connect();
+          
+            $conn->beginTransaction();
+
+           
+            //Insets data into user master tabble
+            $query1 = "INSERT INTO area (AreaName, DistrictID, ProvinceID, AreaPublicID, UpdateBy) VALUES ('$depo_name', '$district_id','$selected_province_id',GetSequence(13), '$UpdatedBy');";
+            
+           
+            $stm = $conn->prepare($query1);
+            
+           
+            $stm->execute();
+
+
+            $conn->commit();
+            $conn = Null;
+            return TRUE;
+        } catch (Exception $exc) {
+            $conn->rollBack();
+             
+           echo $exc->getMessage();
+            return FALSE;
+        }
+    }
     //this ends FMS 
     
     

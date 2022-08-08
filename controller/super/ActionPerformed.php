@@ -184,3 +184,51 @@
             </script>";
           }
  }
+ else if (isset ($_POST['btn_add_depo']))
+ {
+     
+      $first_name = trim(filter_input(INPUT_POST, 'first_name', FILTER_DEFAULT));
+     
+        
+        $depo_name = trim(filter_input(INPUT_POST, 'depo_name', FILTER_DEFAULT));
+        $selected_province_id = trim(filter_input(INPUT_POST, 'selected_province_id', FILTER_DEFAULT));
+        $district_id = trim(filter_input(INPUT_POST, 'district_id', FILTER_DEFAULT));
+       
+        
+       $UpdatedBy = $_SESSION['ttms_username'];
+       
+         
+       
+       if (SuperModel::add_depo($depo_name,$selected_province_id,$district_id,$UpdatedBy)){
+      echo "<script>               
+            $(document).ready(
+             
+            function(){
+                
+               $.jnoty('Depo Successfuly Registered', {
+            sticky: false,
+            header: 'Success',
+            theme: 'jnoty-success',
+            close: function() {window.location.replace('/FMS/view/admin/fueldepo.php')},
+            });   
+            }); 
+            </script>";
+      
+      
+       }else{
+              
+            echo "<script>               
+            $(document).ready(
+             
+            function(){
+                
+               $.jnoty('Depo Not Successfuly Registered', {
+            sticky: false,
+            header: 'Success',
+            theme: 'jnoty-success',
+            close: function() {window.location.replace('/FMS/view/admin/fueldepo.php')},
+            });   
+            }); 
+            </script>";
+          }
+ }
